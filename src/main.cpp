@@ -239,6 +239,7 @@ class MyCallbacks: public BLECharacteristicCallbacks {
             {
               Snake_Generate();
             }
+            FastLED.clear();
             Serial.print("Mode: ");
             Serial.println(Led_X_Mode[0]);
           }
@@ -383,9 +384,6 @@ void Control_Snake()
   {
     Update_Body();
     Update_Color();
-    Serial.print(S_Head[0]);
-    Serial.print(" ");
-    Serial.println(S_Head[1]);
   }
   else
   {
@@ -445,9 +443,6 @@ void AI_Hunting_Snake()
   {
     Update_Body();
     Update_Color();
-    Serial.print(S_Head[0]);
-    Serial.print(" ");
-    Serial.println(S_Head[1]);
   }
   else
   {
@@ -768,7 +763,7 @@ void Update_Body()
 void Show_Maker_Mode()
 {
   gShow_Makers[gShowMakerNum]();
-  FastLED.show();  
+  FastLED.show();
   FastLED.delay(1000/FRAMES_PER_SECOND);
   gHue++;
   if(gHue == 255)
@@ -794,22 +789,30 @@ void Rainbow_2()
 
 void Fade_Led() 
 {
-  Fade_Between(white, blue, FRAMES_PER_SECOND);
-  delay(FRAMES_PER_SECOND);
-  Fade_Between(blue, skyblue, FRAMES_PER_SECOND);
-  delay(FRAMES_PER_SECOND);
-  Fade_Between(skyblue, green, FRAMES_PER_SECOND);
-  delay(FRAMES_PER_SECOND);
-  Fade_Between(green, yellow, FRAMES_PER_SECOND);
-  delay(FRAMES_PER_SECOND);
-  Fade_Between(yellow, red, FRAMES_PER_SECOND);
-  delay(FRAMES_PER_SECOND);
-  Fade_Between(red, purple, FRAMES_PER_SECOND);
-  delay(FRAMES_PER_SECOND);
-  Fade_Between(purple, white, FRAMES_PER_SECOND);
-  delay(FRAMES_PER_SECOND);
-  Fade_Between(white, white, FRAMES_PER_SECOND);
-  delay(FRAMES_PER_SECOND);
+  int Del = 10;
+  if(Led_X_Mode[0] == 1)
+  Fade_Between(white, blue, Del);
+  delay(Del);
+  if(Led_X_Mode[0] == 1)
+  Fade_Between(blue, skyblue, Del);
+  delay(Del);
+  if(Led_X_Mode[0] == 1)
+  Fade_Between(skyblue, green, Del);
+  delay(Del);
+  if(Led_X_Mode[0] == 1)
+  Fade_Between(green, yellow, Del);
+  delay(Del);
+  if(Led_X_Mode[0] == 1)
+  Fade_Between(yellow, red, Del);
+  delay(Del);
+  if(Led_X_Mode[0] == 1)
+  Fade_Between(red, purple, Del);
+  delay(Del);
+  if(Led_X_Mode[0] == 1)
+  Fade_Between(purple, white, Del);
+  delay(Del);
+  if(Led_X_Mode[0] == 1)
+  Fade_Between(white, white, Del);
 }
 
 void Fade_Between(uint8_t *a, uint8_t *b, int del) 
@@ -822,7 +825,11 @@ void Fade_Between(uint8_t *a, uint8_t *b, int del)
   s3 = double((b[2] - a[2])) / dsteps; 
   tmp1 = a[0], tmp2 = a[1], tmp3 = a[2];
   for (int i = 0; i < steps; i++) 
-  { 
+  {
+    if(Led_X_Mode[0] != 1)
+    {
+      break;
+    }
     tmp1 += s1;
     tmp2 += s2; 
     tmp3 += s3;      
